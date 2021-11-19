@@ -8,13 +8,22 @@
   <div class="content">
     <div class="input-group">
       <div class="form-input">
-        <label> productID</label>
-        <input [(ngModel)]="productID" />
+        <label> PID</label>
+        <input [(ngModel)]="productID" (keyup.enter)="getProduct()" />
+      </div>
+      <div class="form-input">
+        <label> Quantity</label>
+        <input [(ngModel)]="quantity" (keyup.enter)="getProduct()" />
+      </div>
+      <div class="form-input">
+        <label> Coupon</label>
+        <input [(ngModel)]="coupon" (keyup.enter)="getProduct()" />
       </div>
       <button class="submit-button" (click)="getProduct()">Find</button>
     </div>
 
     <div class="product-result">
+      <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
       <ng-container *ngIf="product">
         <textarea rows="20"> {{ product | json }} </textarea>
       </ng-container>

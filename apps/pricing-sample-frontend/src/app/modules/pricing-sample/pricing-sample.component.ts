@@ -16,7 +16,11 @@ import { ProductService } from '../../services/product.service';
 })
 export class PricingSampleComponent implements OnInit, OnDestroy {
   productID = 'SDK-CDN-JS-SCR-IPT';
+  quantity = 0;
+  coupon = '';
   product: IGetPriceResponse = {} as IGetPriceResponse;
+
+  errorMessage = '';
 
   value: ISampleModel = {} as ISampleModel;
   destroy$: Subject<void> = new Subject<void>();
@@ -38,19 +42,20 @@ export class PricingSampleComponent implements OnInit, OnDestroy {
 
   getProduct(): void {
     const mockInput = {
-      itemCode: 'SDK-CDN-JS-SCR-IPT',
-      quantity: 10,
-      coupon: '',
+      itemCode: this.productID,
+      quantity: Number(this.quantity),
+      coupon: this.coupon,
     };
     this.productService
       .getPrice(mockInput)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response: IGetPriceResponse) => {
+          this.errorMessage = '';
           this.product = response;
         },
         (ex) => {
-          console.log('ex [LOG]:--> ', ex);
+          this.errorMessage = ex.message;
         }
       );
   }
@@ -58,10 +63,11 @@ export class PricingSampleComponent implements OnInit, OnDestroy {
   getSample(): void {
     this.commonService.getSample('mockID').subscribe({
       next: (response) => {
+        this.errorMessage = '';
         this.value = response;
       },
       error: (ex) => {
-        console.log('ex [LOG]:--> ', ex);
+        this.errorMessage = ex.message;
       },
     });
   }

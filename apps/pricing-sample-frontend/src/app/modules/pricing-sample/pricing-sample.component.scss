@@ -13,13 +13,19 @@
 
   .content{
     display: flex;
-    margin: auto;
+    width:250px;
     flex-flow: column;
 
     .input-group{
       display: flex;
       flex-flow: column;
 
+      .form-input {
+        margin:5px;
+        label {
+          margin-right:2px;
+        }
+      }
       .submit-button{
         margin:5px;
       }
