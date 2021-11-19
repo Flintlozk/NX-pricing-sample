@@ -1,6 +1,28 @@
 <div class="pricing-sample-container">
-  <button (click)="backToPreviousRoute()">Back</button>
-  <ng-container *ngIf="value">
-    {{ value | json }}
-  </ng-container>
+  <div class="head">
+    <div>
+      <h3>Pricing Sample</h3>
+    </div>
+    <button (click)="backToPreviousRoute()">Back</button>
+  </div>
+  <div class="content">
+    <div class="input-group">
+      <div class="form-input">
+        <label> productID</label>
+        <input [(ngModel)]="productID" />
+      </div>
+      <button class="submit-button" (click)="getProduct()">Find</button>
+    </div>
+
+    <div class="product-result">
+      <ng-container *ngIf="product">
+        <textarea rows="20"> {{ product | json }} </textarea>
+      </ng-container>
+    </div>
+  </div>
 </div>
+
+getSample
+<ng-container *ngIf="value">
+  {{ value | json }}
+</ng-container>
