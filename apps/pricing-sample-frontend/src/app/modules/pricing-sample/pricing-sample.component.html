@@ -1,0 +1,6 @@
+<div class="pricing-sample-container">
+  <button (click)="backToPreviousRoute()">Back</button>
+  <ng-container *ngIf="value">
+    {{ value | json }}
+  </ng-container>
+</div>

@@ -11,12 +11,19 @@ export const graphQLRoute = (app: Express) => {
     resolvers,
     uploads: false,
     context: ({ req, connection }): IGraphQLContext => {
+      if (environment.production === false && req?.body?.operationName) {
+        console.log('Operation:', req?.body?.operationName, '|', new Date());
+      }
       // set conntext goes here
       return { accessToken: 'mock' } as IGraphQLContext;
     },
   });
 
-  server.applyMiddleware({ app, cors: true, path: '/graphql' });
+  server.applyMiddleware({
+    app,
+    cors: { origin: true, credentials: true },
+    path: '/graphql',
+  });
   const httpServer = createServer(app);
   const port = environment.port;
   httpServer.listen(port, () => {

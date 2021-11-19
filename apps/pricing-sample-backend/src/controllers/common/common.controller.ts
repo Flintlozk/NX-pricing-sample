@@ -11,6 +11,7 @@ class CommonController {
     args: { id: string },
     context: IGraphQLContext
   ): ISampleModel {
+    console.log('args [LOG]:--> ', args);
     return { _id: 'xxxx', name: 'Name', no: 1123 } as ISampleModel;
   }
 }
