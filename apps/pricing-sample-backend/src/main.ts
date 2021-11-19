@@ -1,18 +1,18 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import * as express from 'express';
+import { setupAppServerConnection } from './connections/app.connection';
+import { setupConnection } from './connections/setup.connection';
+import { appRoute } from './routes/app.route';
+import { graphQLRoute } from './routes/graphql.route';
 
 const app = express();
+app.use(express.json());
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to pricing-sample-backend!' });
-});
+void setupConnection().then(() => {
+  // ExpressJS Middle applied
+  setupAppServerConnection(app);
+  //Register common route
+  appRoute(app);
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  //Register GraphQL route and httpServer
+  graphQLRoute(app);
 });
-server.on('error', console.error);
