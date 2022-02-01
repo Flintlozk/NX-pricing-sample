@@ -23,3 +23,5 @@ export class ProductService {
       .pipe(map((x) => x.data['getPrice']));
   }
 }
+
+// Service -> Pipeline => [Mapping , Trasform] -> Return (Subscribe)
