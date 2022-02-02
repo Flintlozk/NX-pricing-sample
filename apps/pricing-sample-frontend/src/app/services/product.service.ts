@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
+  IAddProductResponse,
   IGetPriceInput,
   IGetPriceResponse,
 } from '@pricing-sample-nx/shared-models';
-import { GET_PRICE_QUERY } from './query/price.query';
+import { ADD_PRODUCT_MUTATE, GET_PRICE_QUERY } from './query/price.query';
 
 @Injectable()
 export class ProductService {
@@ -21,6 +22,15 @@ export class ProductService {
         variables: { input },
       })
       .pipe(map((x) => x.data['getPrice']));
+  }
+
+  addProduct(name:string,quantity:number):Observable<any> {
+    return this.apollo.mutate<{addProduct:IAddProductResponse}>({
+      mutation: ADD_PRODUCT_MUTATE,
+      fetchPolicy: 'no-cache',
+      variables: { name,quantity:Number(quantity) },
+    })
+    // .pipe(map((x) => x.data['addProduct']))
   }
 }
 
