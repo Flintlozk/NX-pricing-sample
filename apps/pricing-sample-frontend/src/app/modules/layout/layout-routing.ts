@@ -22,7 +22,7 @@ const routes: Routes = [
             (m) => m.PricingSampleModule
           ),
       },
-    ],
+    ], 
   },
   {
     path: 'layout-1',

@@ -9,3 +9,12 @@ export const GET_PRICE_QUERY = gql`
     }
   }
 `;
+
+export const ADD_PRODUCT_MUTATE = gql`
+  mutation addProduct($name:String,$quantity:Int) {
+    addProduct(name:$name,quantity:$quantity) {
+      status
+      message
+    }
+  }
+`;

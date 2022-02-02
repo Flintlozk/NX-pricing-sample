@@ -11,6 +11,7 @@ export const graphQLRoute = (app: Express) => {
     resolvers,
     uploads: false,
     context: ({ req, connection }): IGraphQLContext => {
+      
       if (environment.production === false && req?.body?.operationName) {
         console.log('Operation:', req?.body?.operationName, '|', new Date());
       }

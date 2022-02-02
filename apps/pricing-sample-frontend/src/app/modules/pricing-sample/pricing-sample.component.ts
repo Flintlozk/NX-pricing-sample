@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  IGetPriceResponse,
+  IGetPriceResponse, 
   ISampleModel,
 } from '@pricing-sample-nx/shared-models';
 import { Subject } from 'rxjs';
