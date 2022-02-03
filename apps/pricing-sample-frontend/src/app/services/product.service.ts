@@ -16,22 +16,24 @@ export class ProductService {
 
   getPrice(input: IGetPriceInput): Observable<IGetPriceResponse> {
     return this.apollo
-      .query<{ getPrice: IGetPriceResponse }>({
+      .query({
         query: GET_PRICE_QUERY,
         fetchPolicy: 'no-cache',
         variables: { input },
       })
-      .pipe(map((x) => x.data['getPrice']));
+      .pipe(map((x) => (<{ getPrice: IGetPriceResponse }>x.data)['getPrice']));
   }
 
-  //kam
-  addProduct(name:string,quantity:number,price:number):Observable<any> {
-    return this.apollo.mutate<{addProduct:IAddProductResponse}>({
-      mutation: ADD_PRODUCT_MUTATE,
-      fetchPolicy: 'no-cache',
-      variables: { name,quantity:Number(quantity),price:Number(price)},
-    })
-    // .pipe(map((x) => x.data['addProduct']))
+  addProduct(name: string, quantity: number): Observable<IAddProductResponse> {
+    return this.apollo
+      .mutate({
+        mutation: ADD_PRODUCT_MUTATE,
+        fetchPolicy: 'no-cache',
+        variables: { name, quantity: Number(quantity) },
+      })
+      .pipe(
+        map((x) => (<{ addProduct: IAddProductResponse }>x.data)['addProduct'])
+      );
   }
 }
 

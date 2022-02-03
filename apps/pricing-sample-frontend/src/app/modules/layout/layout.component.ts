@@ -12,6 +12,7 @@ export class LayoutComponent implements OnInit {
     2: 'layout-2',
     3: 'pricing',
     4: 'pricing-child',
+    5: 'todo',
   };
 
   constructor(public router: Router) {}
