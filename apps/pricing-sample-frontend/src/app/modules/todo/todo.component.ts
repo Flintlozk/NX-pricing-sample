@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'pricing-sample-nx-todo',
   templateUrl: './todo.component.html',
@@ -7,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TodoComponent implements OnInit {
   constructor() {}
+  todo = ''
 
   ngOnInit(): void {}
+
+  addTodolist(){
+    this.addTodolist
+  }
 }

@@ -24,12 +24,12 @@ export class ProductService {
       .pipe(map((x) => (<{ getPrice: IGetPriceResponse }>x.data)['getPrice']));
   }
 
-  addProduct(name: string, quantity: number): Observable<IAddProductResponse> {
+  addProduct(name: string, quantity: number,price:number): Observable<IAddProductResponse> {
     return this.apollo
       .mutate({
         mutation: ADD_PRODUCT_MUTATE,
         fetchPolicy: 'no-cache',
-        variables: { name, quantity: Number(quantity) },
+        variables: { name, quantity: Number(quantity),price },
       })
       .pipe(
         map((x) => (<{ addProduct: IAddProductResponse }>x.data)['addProduct'])
