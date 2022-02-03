@@ -9,10 +9,10 @@ export const GET_PRICE_QUERY = gql`
     }
   }
 `;
-
+//kam
 export const ADD_PRODUCT_MUTATE = gql`
-  mutation addProduct($name:String,$quantity:Int) {
-    addProduct(name:$name,quantity:$quantity) {
+  mutation addProduct($name:String,$quantity:Int,$price:Int) {
+    addProduct(name:$name,quantity:$quantity,price:$price) {
       status
       message
     }

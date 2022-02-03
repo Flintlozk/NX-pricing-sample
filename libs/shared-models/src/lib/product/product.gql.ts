@@ -7,6 +7,6 @@ export const ProductTypeDefs = gql`
   }
 
   type Mutation {
-    addProduct(name:String,quantity:Int): AddProductResponse
+    addProduct(name:String,quantity:Int,price:Int): AddProductResponse
   }
 `;

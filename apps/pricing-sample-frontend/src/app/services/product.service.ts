@@ -24,11 +24,12 @@ export class ProductService {
       .pipe(map((x) => x.data['getPrice']));
   }
 
-  addProduct(name:string,quantity:number):Observable<any> {
+  //kam
+  addProduct(name:string,quantity:number,price:number):Observable<any> {
     return this.apollo.mutate<{addProduct:IAddProductResponse}>({
       mutation: ADD_PRODUCT_MUTATE,
       fetchPolicy: 'no-cache',
-      variables: { name,quantity:Number(quantity) },
+      variables: { name,quantity:Number(quantity),price:Number(price)},
     })
     // .pipe(map((x) => x.data['addProduct']))
   }
