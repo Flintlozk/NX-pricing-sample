@@ -22,7 +22,7 @@ const routes: Routes = [
             (m) => m.PricingSampleModule
           ),
       },
-    ], 
+    ],
   },
   {
     path: 'layout-1',
@@ -35,6 +35,11 @@ const routes: Routes = [
       import('../../modules/pricing-sample/pricing-sample.module').then(
         (m) => m.PricingSampleModule
       ),
+  },
+  {
+    path: 'todo',
+    loadChildren: () =>
+      import('../../modules/todo/todo.module').then((m) => m.TodoModule),
   },
 ];
 
