@@ -1,8 +1,16 @@
 <div>
   <div>TODO APP</div>
-    <tr *ngFor="let i of todo">
-      
-    </tr>
+  <div class="product-result">
+    <div *ngIf="errorMessage" style="color: red">{{ errorMessage }}</div>
+
+    <div *ngFor="let todoValue of tododes">
+      {{todoValue.id}}
+      {{todoValue.todo}}
+    </div>
+    <!-- <ng-container *ngIf="tododes">
+      <textarea rows="20"> {{ tododes | json }} </textarea>
+    </ng-container> -->
+  </div>
   <div>
         <input name="todo" [(ngModel)]="todo"/>
         <button (click)="addTodo()">Add</button>

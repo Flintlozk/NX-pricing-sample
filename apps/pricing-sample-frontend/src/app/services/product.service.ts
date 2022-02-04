@@ -29,7 +29,7 @@ export class ProductService {
       .mutate({
         mutation: ADD_PRODUCT_MUTATE,
         fetchPolicy: 'no-cache',
-        variables: { name, quantity: Number(quantity),price },
+        variables: { name, quantity: Number(quantity),price:Number(price) },
       })
       .pipe(
         map((x) => (<{ addProduct: IAddProductResponse }>x.data)['addProduct'])

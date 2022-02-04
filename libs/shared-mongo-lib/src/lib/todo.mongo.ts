@@ -1,8 +1,8 @@
+import { ITodoData } from '@pricing-sample-nx/shared-models';
 import * as mongoose from 'mongoose';
 import { Document, Schema } from 'mongoose';
-import { ITodo } from '@pricing-sample-nx/shared-models';
 
-export const todoSchemaModel = mongoose?.model<ITodo & Document>(
+export const todoSchemaModel = mongoose?.model<ITodoData & Document>(
     'todolist',
     new Schema(
       {
