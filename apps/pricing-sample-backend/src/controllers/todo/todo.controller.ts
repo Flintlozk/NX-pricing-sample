@@ -6,6 +6,7 @@ import {
     IGraphQLContext,
     ISampleModel,
   } from '@pricing-sample-nx/shared-models';
+import { validateGetTodoRequest } from "../../schema/todo/todo.schema";
 
 class TodoController{
     public static todoService: TodoService
@@ -22,19 +23,16 @@ class TodoController{
 
     async addTodoHandler(parent, args:IAddTodoInput, context):Promise<IAddTodoResponse> {
         console.log(args);
-        
-        return await TodoController.todoService.addTodo(args)
+        const validArgs = validateGetTodoRequest(args)
+        console.log('validArgs',validArgs)
+        return await TodoController.todoService.addTodo(validArgs)
     }
 
-    //
-    getSampleHandler(
-        parent,
-        args: { id: string },
-        context: IGraphQLContext
-      ): ISampleModel {
-        console.log('args [LOG]:--> ', args);
-        return {name: 'Name', no: 1123 } as ISampleModel;
-      }
+    async getTodoHandler(parent, args, context:IGraphQLContext){
+         const todoResponse = await TodoController.todoService.getTodo();
+         return todoResponse;
+    }
+
 }
 
 const todo: TodoController = new TodoController();
@@ -45,6 +43,12 @@ export const todoResolver = {
                 handler: todo.addTodoHandler,
                 validator: x => x,
             })
+    },
+    Query:{
+        getTodo : graphQLHandler({
+            handler: todo.getTodoHandler,
+            validator: x=>x,
+          }),
     }
 };
 

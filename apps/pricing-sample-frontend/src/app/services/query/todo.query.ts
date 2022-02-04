@@ -3,8 +3,10 @@ import { gql } from "apollo-angular";
 export const GET_TODO_QUERY = gql`
   query getTodo($input: GetTodoInput) {
     getTodo(todo: $input) {
+      id
       todo
-      message
+      createAt
+      updatedAt
     }
   }
 `;
@@ -18,3 +20,5 @@ export const ADD_TODO_MUTATE = gql `
         }
     }
 `
+
+//update
