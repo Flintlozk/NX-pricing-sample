@@ -3,9 +3,11 @@
 //   DISABLED
 // }
 
+//kam
 export interface IAddProductInput { 
   name:string
   quantity:number
+  price:number
 }
 
 export interface IAddProductResponse {

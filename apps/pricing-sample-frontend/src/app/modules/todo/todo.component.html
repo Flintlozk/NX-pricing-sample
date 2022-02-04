@@ -1,3 +1,10 @@
 <div>
   <div>TODO APP</div>
+    <tr *ngFor="let i of todo">
+      
+    </tr>
+  <div>
+        <input name="todo" [(ngModel)]="todo"/>
+        <button (click)="addTodo()">Add</button>
+  </div>
 </div>
