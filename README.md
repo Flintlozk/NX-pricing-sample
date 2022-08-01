@@ -1,94 +1,89 @@
+# Pricing sample
 
+Introduction to architect design for standard Node.JS application
 
-# PricingSampleNx
+# Overall
 
-This project was generated using [Nx](https://nx.dev).
+![alt text](https://i.imgur.com/3mwgXEw.png)
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+Normal http request will go into Express.js and going through Routes, routes will pass that request to controller, and controller will handle http request. Normally, data validation, header, JWT token transformation will happened here.
 
-🔎 **Smart, Extensible Build Framework**
+The controller will pass that clean input into our internal system boundary, through service layer, where we will process input, mutate state in system, and response according to business requirement.
 
-## Adding capabilities to your workspace
+# Architect Definitions
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+### Connections
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+All long-lived connections to external party will be defined in folder "Connections". Now we have MongoDb and Sentry.
 
-Below are our core plugins:
+### Routes
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+The routes is where we define http route definitions of our whole system.
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+So if you ever wonder what kind of http endpoints do we have, always look in routes file.
 
-## Generate an application
+### Controller
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+Controller is interface between HTTP protocol and our system. Controller is the first touch for REST API. It will validate input, combine JSON input with user session, send those data to services to perform business model.
 
-> You can use any of the plugins above to generate applications as well.
+This means that in service level, we do not have to care about authorization, security and input validation. We can assume in service level that input is already validated.
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+Also, controller in the future may handle logic related to web connection and request, such as rate limiting, circuit breaker, etc. Controller **must** not know anything about business.
 
-## Generate a library
+### Services
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+Services is the layer which contain business flow. You can view services as a business logics integrator. Service will integrate data layer and other business logics, and every other components to create a valuable business use-case.
 
-> You can also use any of the plugins above to generate libraries as well.
+Examples: It will know about what type of data needed to execute business command, what kind of account can do what, and what type of response do we need to provide back to the users, what type of data needed to be logged in our system.
 
-Libraries are shareable across libraries and applications. They can be imported from `@pricing-sample-nx/mylib`.
+However, service do not know how to query or save any data. Services will completely on Data for internal data, and Provider for any 3rd party data.
 
-## Development server
+### Data
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Data is the state management module. Data will do the data operation. It will know how to talk with SQL, Redis, NoSQL, etc. It will know how shall we cache the data. It will know how query language work for different data store technologies stack.
 
-## Code scaffolding
+This also mean we can connect to multiple data store as long as we have Data build on top of it. Data's consumer should not care what type of data store Data use, or what type of caching strategy did Data do.
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+### Domain
 
-## Build
+Domain are business logic functions. Every business knowledge and questions such as "How to apply coupon?", "Is this can be called Out of stock"?, "Is this promotion coupon still valid?" will be implemented as `applyCoupon`, `containStock`
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Generally, this means that name every logic (comparison, data transformation) in term that make sense from business domain perspective, and put named functions insdie domain layer as much as possible. This would help fellow developers to look into domain first when they want to compare something, and reduce code duplication.
 
-## Running unit tests
+Common mistake is that it is easy to put bunch of logic in service layer without having a name.
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+Exmaple:
 
-Run `nx affected:test` to execute the unit tests affected by a change.
+Bad
+```
+if (quantity < item.quantity) {
+  throw new OutOfStockError()
+}
+```
 
-## Running end-to-end tests
+Good
+```
+if (containStock(quantity, item.quantity)) {
+  throw new OutOfStockError()
+}
+```
 
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+All domain functions must be **pure function** without touching any external system.
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+### Helper
 
-## Understand your workspace
+Helpers are libraries. Should be self-contained and context-free.
 
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+Rule of thumb is that we should be able to copy whole helper folder and use in other Repo that do something completely different from pricing without any confusion.
 
-## Further help
+Any business-context dependent function will not be classified as "Helper".
 
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+# Glossary
 
+### Pure function
 
+Pure function is function that do not have side-effect. Given same input, return same output. Pure functions does not connect with any external system. It just do some comparison or data processing.
 
-## ☁ Nx Cloud
+You can look into it more [here](https://medium.freecodecamp.org/what-is-a-pure-function-in-javascript-acb887375dfe)
 
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Main benefit of pure functions is that pure functions can be used any where. It is fully reuse able without any requirement of setting up.
