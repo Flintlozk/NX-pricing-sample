@@ -23,13 +23,8 @@ export class PriceService {
 
     const { price } = item;
 
-    console.log('price [LOG]:--> ', price);
     const normalPrice = price * quantity;
     const productWithAppliedCoupon = applyCoupon(coupon, normalPrice, item);
-    console.log(
-      'productWithAppliedCoupon [LOG]:--> ',
-      productWithAppliedCoupon
-    );
     return productWithAppliedCoupon;
   }
 }
