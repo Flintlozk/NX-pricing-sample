@@ -12,3 +12,8 @@ export const addItem = (product: IProduct) => {
       });
   });
 };
+
+export const editItem = async (query: { code: string }, set: { price?: number, quantity?: number }): Promise<any> => {
+  const result = await ProductModel.updateOne(query, set)
+  return result
+}

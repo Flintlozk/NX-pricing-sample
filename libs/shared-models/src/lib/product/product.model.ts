@@ -24,3 +24,14 @@ export interface IProduct {
   quantity: number;
   price: number;
 }
+
+export interface IEditProductInput {
+  itemCode: string
+  price: number
+  quantity: number
+}
+
+export interface IEditProductResponse {
+  status: number,
+  message: string
+}
