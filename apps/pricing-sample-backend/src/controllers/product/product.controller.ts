@@ -9,7 +9,7 @@ import { graphQLHandler } from '../graphql-handler';
 // } from '@pricing-sample-nx/shared-models';
 
 class ProductController {
-  public static productService: ProductService
+  public static productService: ProductService;
   public static instance: ProductController;
   public static getInstance(): ProductController {
     if (!ProductController.instance)
@@ -23,23 +23,19 @@ class ProductController {
 
 
   async addProductHandler(parent, args: IAddProductInput, context): Promise<IAddProductResponse> {
-    return await ProductController.productService.addProduct(args)
+    return await ProductController.productService.addProduct(args);
   }
 
   async editProductHandler(parent, args: IEditProductInput, context: IGraphQLContext): Promise<IEditProductResponse> {
-    console.log('//[LOG:30]: args', args);
-    const validateInput = validateEditProductRequest(args)
-    console.log('//[LOG:29]: contexxt.accessToken', context.accessToken);
+    const validateInput = validateEditProductRequest(args);
 
     const result = await ProductController.productService.editProduct({
       itemCode: validateInput.itemCode,
       price: validateInput.price,
       quantity: validateInput.quantity
-    })
+    });
 
-    console.log('//[LOG:40]: result', result);
-
-    return result
+    return result;
 
 
   }
