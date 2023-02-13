@@ -55,6 +55,7 @@ Common mistake is that it is easy to put bunch of logic in service layer without
 Exmaple:
 
 Bad
+
 ```
 if (quantity < item.quantity) {
   throw new OutOfStockError()
@@ -62,6 +63,7 @@ if (quantity < item.quantity) {
 ```
 
 Good
+
 ```
 if (containStock(quantity, item.quantity)) {
   throw new OutOfStockError()
@@ -87,3 +89,5 @@ Pure function is function that do not have side-effect. Given same input, return
 You can look into it more [here](https://medium.freecodecamp.org/what-is-a-pure-function-in-javascript-acb887375dfe)
 
 Main benefit of pure functions is that pure functions can be used any where. It is fully reuse able without any requirement of setting up.
+
+-
